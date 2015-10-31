@@ -1,0 +1,32 @@
+{
+  "name": "expensio",
+  "version": "0.0.1",
+  "description": "Expensio - Expense Manager",
+  "main": "",
+  "moduleType": [],
+  "authors": [
+    "Tudor-Dan Ravoiu"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "angular-route": "~1.4.7",
+    "angular": "~1.4.7"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  }
+}

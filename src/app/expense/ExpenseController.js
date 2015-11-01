@@ -1,49 +1,60 @@
 (function(){
 	var app = angular.module('expenseApp');	
 
-	app.controller('ExpenseController', ['ExpenseModel', function(ExpenseModel){
+	app.controller('ExpenseController', ['ExpenseService', function(ExpenseService){
 		var self = this;	
 
-		self.income = ExpenseModel.getIncome();	
-		self.expenseList = ExpenseModel.getList();
+		self.income = ExpenseService.getIncome();	
+		self.newExpense = {};
+				
+		var getList = function() {			
+			return ExpenseService.getList()
+				.then(function(expenseList) {					
+	        		self.expenseList = expenseList;
+	        		calcTotal();
+					calcPaid();
+	  			});	
+		}
 
-		self.calcTotal = function() {
+		var calcTotal = function() {
 			var total = 0;			
 			for(var expense in self.expenseList) {
-				total += self.expenseList[expense].amount;
+				total += parseFloat(self.expenseList[expense].amount);
 			}
 			
 			self.totalExpense = total;
 		};
 
-		self.calcPaid = function() {
+		var calcPaid = function() {
 			var paid = 0;
-			for(var expense in self.expenseList) {
-				if(self.expenseList[expense].paid === true) {
-					paid += self.expenseList[expense].amount;	
+			for(var expense in self.expenseList) {				
+				if(self.expenseList[expense].paid == 1) {
+					paid += parseFloat(self.expenseList[expense].amount);	
 				}				
 			}
 
 			self.paidExpense = paid;
 		};
 
-		self.addExpense = function() {			
-			//console.log(self.expense);
-			ExpenseModel.add(angular.copy(self.expense));			
-
-			self.calcTotal();
-			self.calcPaid();
+		self.create = function() {						
+			ExpenseService.create(self.newExpense)
+				.then(getList)
+				.then(function() {
+					self.newExpense = {};
+				});						
 		};
 
-		self.removeExpense = function(expense) {			
-			ExpenseModel.remove(self.expenseList.indexOf(expense));
-
-			self.calcTotal();
-			self.calcPaid();
+		self.delete = function(expense) {						
+			ExpenseService.destroy(expense)
+				.then(getList);			
 		}
 
-		self.calcTotal();
-		self.calcPaid();		
+		self.update = function(expense) {
+			ExpenseService.update(expense)
+				.then(getList);
+		}		
+
+		getList();						
 	}]);
 
 	

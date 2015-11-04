@@ -59,26 +59,40 @@
 			</div>
 
 			<div ng-controller="ExpenseController as ctrl">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Amount</th>
-							<th>Paid</th>							
-							<th width="5%"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="expense in ctrl.expenseList">
-							<td>{{ expense.name }}</td>
-							<td>{{ expense.amount }}</td>
-							<td><input ng-true-value="1" ng-false-value="0" type="checkbox" ng-model="expense.paid" ng-change="ctrl.update(expense)"/></td>
-							<td><button type="button" class="btn btn-danger btn-xs" ng-click="ctrl.delete(expense)">delete</button></td>
-						</tr>
-					</tbody>  
-				</table>
+				<div class="row">
+					<div class="col-md-4 pull-right">						
+						<input 	type="text" 
+								class="pull-right" 
+								ng-model="ctrl.searchKey"
+								placeholder="Search..." />					
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table">
+							<thead>
+								<tr>
+									<th ng-click="ctrl.sort('name')">Name</th>
+									<th ng-click="ctrl.sort('amount')">Amount</th>
+									<th>Paid</th>							
+									<th width="5%"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="expense in ctrl.expenseList | orderBy:ctrl.orderBy | filter: {name: ctrl.searchKey}">
+									<td>{{ expense.name }}</td>
+									<td>{{ expense.amount | currency:'&euro;' }}</td>
+									<td><input ng-true-value="1" ng-false-value="0" type="checkbox" ng-model="expense.paid" ng-change="ctrl.update(expense)"/></td>
+									<td><button type="button" class="btn btn-danger btn-xs" ng-click="ctrl.delete(expense)">delete</button></td>
+								</tr>
+							</tbody>  
+						</table>
+					</div>
+				</div>
 
 				<div class="row">
+					
+
 					<div class="col-md-4">
 						<div class="panel panel-default">
 							<div class="panel-body">
@@ -103,7 +117,7 @@
 													required 
 													class="form-control" 
 													id="amount" 
-													placeholder="0.00"
+													placeholder="&euro;0.00"
 													ng-model="ctrl.newExpense.amount">
 										</div>
 									</div>
@@ -128,18 +142,18 @@
 						
 					</div>
 
-					<div class="col-md-8">
+					<div class="col-md-4">
 						<dl class="dl-horizontal pull-right">
 							<dt>Total Expenses:</dt>
-							<dd>{{ ctrl.totalExpense }}</dd>
+							<dd>{{ ctrl.totalExpense | currency:'&euro;'}}</dd>
 							<dt>Paid:</dt>
-							<dd>{{ ctrl.paidExpense }}</dd>
+							<dd>{{ ctrl.paidExpense | currency:'&euro;' }}</dd>
 							<dt>Income:</dt>
-							<dd>{{ ctrl.income }}</dd>
+							<dd>{{ ctrl.income | currency:'&euro;' }}</dd>
 							<dt>Remaining:</dt>
-							<dd>{{ ctrl.income - ctrl.paidExpense }}</dd>
+							<dd>{{ ctrl.income - ctrl.paidExpense | currency:'&euro;' }}</dd>
 							<dt>Remaining after paid:</dt>
-							<dd>{{ ctrl.income - ctrl.totalExpense }}</dd>
+							<dd>{{ ctrl.income - ctrl.totalExpense | currency:'&euro;' }}</dd>
 						</dl>
 					</div>
 				</div>

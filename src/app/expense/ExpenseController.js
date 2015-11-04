@@ -5,12 +5,14 @@
 		var self = this;	
 
 		self.income = ExpenseService.getIncome();	
+		self.orderBy = '-name';
+		self.searchKey = '';
 		self.newExpense = {};
 				
 		var getList = function() {			
 			return ExpenseService.getList()
-				.then(function(expenseList) {					
-	        		self.expenseList = expenseList;
+				.then(function(expenseList) {							
+	        		self.expenseList = expenseList;	        		
 	        		calcTotal();
 					calcPaid();
 	  			});	
@@ -47,12 +49,17 @@
 		self.delete = function(expense) {						
 			ExpenseService.destroy(expense)
 				.then(getList);			
-		}
+		};
 
 		self.update = function(expense) {
 			ExpenseService.update(expense)
 				.then(getList);
-		}		
+		};
+
+		self.sort = function(sortKey) {
+			var sortDirection = self.orderBy.charAt(0) === '-' ? '+' : '-';
+			self.orderBy = sortDirection + sortKey;
+		};
 
 		getList();						
 	}]);

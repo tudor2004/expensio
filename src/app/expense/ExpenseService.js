@@ -7,8 +7,14 @@
 
 			self.getList = function() {
 				return $http.get('http://api.expensio.dev/expense')
-					.then(function(response) {						
-						return response.data.data;
+					.then(function(response) {		
+						var expenseList = response.data.data;
+						
+						angular.forEach(expenseList, function (expense) {
+						  expense.amount = parseFloat(expense.amount);
+						});				
+
+						return expenseList;
 					});				
 			}
 

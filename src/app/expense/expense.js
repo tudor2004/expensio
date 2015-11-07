@@ -77,6 +77,4 @@
 
 		getExpenseStackDetails($routeParams.id);
 	}]);
-
-
 })();

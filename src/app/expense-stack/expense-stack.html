@@ -1,0 +1,92 @@
+<h1>Expense Stack</h1>
+<p class="lead">Choose an expense sheet from the list below.</p>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-info" role="alert" ng-hide="expenseStackCtrl.expenseStackList.length">
+            No expense stack available. Add one below...
+        </div>
+        <div class="list-group" ng-show="expenseStackCtrl.expenseStackList.length">
+            <div ng-repeat="expenseStack in expenseStackCtrl.expenseStackList"
+                 class="list-group-item">
+
+                 <a ng-href="#/expense/{{ expenseStack.id }}">{{ expenseStack.name}}</a>
+                 <small>&raquo; Currency: {{ expenseStack.currency }}</small>
+                 <small>&raquo; Income: {{ expenseStack.income }}</small>
+                 <small>&raquo; {{ expenseStack.created_at }}</small>
+
+                <button type="button" class="pull-right btn btn-danger btn-xs" ng-click="expenseStackCtrl.deleteExpenseStack(expenseStack)">delete</button>
+            </div>
+        </div>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <button type="button" class="btn btn-primary" ng-click="expenseStackCtrl.showAddForm = true" ng-hide="expenseStackCtrl.showAddForm">Add New</button>
+        <div class="panel panel-default" ng-show="expenseStackCtrl.showAddForm">
+            <div class="panel-body">
+                <form class="form-horizontal" ng-submit="expenseStackCtrl.createExpenseStack()" name="addExpenseStackForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input 	type="text"
+                                    ng-minlength="3"
+                                    required
+                                    class="form-control"
+                                    id="name"
+                                    placeholder="Name"
+                                    ng-model="expenseStackCtrl.newExpenseStack.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="income" class="col-sm-3 control-label">Income</label>
+                        <div class="col-sm-9">
+                            <input 	type="text"
+                                    ng-minlength="1"
+                                    required
+                                    class="form-control"
+                                    id="income"
+                                    placeholder="&euro;0.00"
+                                    ng-model="expenseStackCtrl.newExpenseStack.income">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="currency" class="col-sm-3 control-label">Currency</label>
+                        <div class="col-sm-9">
+                            <select class="form-control"
+                                    id="currency"
+                                    ng-options="currency as currency for currency in expenseStackCtrl.currencyList"
+                                    ng-model="expenseStackCtrl.newExpenseStack.currency">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea   id="description"
+                                        ng-model="expenseStackCtrl.newExpenseStack.description"
+                                        class="form-control"
+                                        rows="4"
+                                        ng-maxlength="255">
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <input  type="submit"
+                                    class="btn btn-default"
+                                    ng-disabled="addExpenseStackForm.$invalid || addExpenseStackForm.$pristine"
+                                    value="Add" />
+                            <button type="button"
+                                    class="btn btn-danger pull-right"
+                                    ng-click="expenseStackCtrl.showAddForm = false">
+                                    Dismiss
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

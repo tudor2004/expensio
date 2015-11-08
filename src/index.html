@@ -7,8 +7,6 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<title>Biblio</title>
 
-
-
 	<link rel="apple-touch-icon" sizes="57x57" href="assets/img/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="assets/img/apple-icon-60x60.png">
 	<link rel="apple-touch-icon" sizes="72x72" href="assets/img/apple-icon-72x72.png">
@@ -40,7 +38,7 @@
 	</head>
 	<body ng-app="expenseApp">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
+			<div class="container" ng-controller="DashboardController as dashboardCtrl">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 						<span class="sr-only">Toggle navigation</span>
@@ -50,9 +48,27 @@
 					</button>
 					<a class="navbar-brand" href="#/">Expensio</a>
 				</div>
+
+                <ul class="nav navbar-nav navbar-right" ng-show="dashboardCtrl.authService.user.email">
+			        <li class="dropdown">
+			          	<a 	href="#/"
+							class="dropdown-toggle"
+							data-toggle="dropdown"
+							role="button"
+							aria-haspopup="true"
+							aria-expanded="false">
+								{{ dashboardCtrl.authService.user.email }} <span class="caret"></span>
+						</a>
+			          	<ul class="dropdown-menu">
+			            	<li><a ng-click="dashboardCtrl.logout()">Logout</a></li>
+			          	</ul>
+			        </li>
+		      	</ul>
 			</div>
 		</nav>
 
+
+        <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
 
 		<div class="container" ng-view></div>
 

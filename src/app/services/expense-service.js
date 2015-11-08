@@ -26,7 +26,7 @@
 			};
 
 			self.updateExpense = function(expense) {
-				return $http.post('http://api.expensio.dev/expense/' + expense.id, expense);
+				return $http.put('http://api.expensio.dev/expense/' + expense.id, expense);
 			}
 
 			self.deleteExpense = function(expense) {

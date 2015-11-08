@@ -14,10 +14,9 @@
 			return ExpenseService.getExpenseList(self.expenseStack)
 				.then(function(expenseList) {
 	        		self.expenseList = expenseList;
-                    self.newExpense = {
-                        expense_stack_id: self.expenseStack.id
+					self.newExpense = {
+                        stackId: self.expenseStack.id
                     };
-
 	        		calcTotal();
 					calcPaid();
 	  			});
@@ -27,6 +26,10 @@
 			return ExpenseService.getExpenseStackDetails(id)
 				.then(function(expenseStack) {
 	        		self.expenseStack = expenseStack;
+                    self.newExpense = {
+                        stackId: self.expenseStack.id
+                    };
+
                     self.income = self.expenseStack.income;
 	        		getExpenseList();
 	  			});
@@ -56,7 +59,9 @@
 			ExpenseService.createExpense(self.newExpense)
 				.then(getExpenseList)
 				.then(function() {
-					self.newExpense = {};
+					self.newExpense = {
+                        stackId: self.expenseStack.id
+                    };
 				});
 		};
 

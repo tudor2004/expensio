@@ -1,7 +1,7 @@
 (function(){
 	var app = angular.module('expenseApp');
 
-	app.controller('ExpenseController', ['ExpenseService', '$routeParams', function(ExpenseService, $routeParams){
+	app.controller('ExpenseController', ['ExpenseService', '$stateParams', function(ExpenseService, $stateParams){
 		var self = this;
 
         self.expenseStack = {},
@@ -80,6 +80,6 @@
 			self.orderBy = sortDirection + sortKey;
 		};
 
-		getExpenseStackDetails($routeParams.id);
+		getExpenseStackDetails($stateParams.id);
 	}]);
 })();
